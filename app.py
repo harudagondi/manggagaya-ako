@@ -1,11 +1,12 @@
 import yaml, tweepy, markovify
 
 config_file = "config.yaml"
-COUNT = 1000
-USERS = ["haruda02"]
 
 with open(config_file, "r") as f:
     config = yaml.load(f)
+
+COUNT = config["COUNT"]
+USERS = config["USERS"]
 
 auth = tweepy.OAuthHandler(
     config["CONSUMER_KEY"],
@@ -21,8 +22,11 @@ def make_a_tweet():
     tweets = []
 
     for user in USERS:
-        timeline = api.user_timeline(id=user, count=COUNT)
-        tweets.extend([tweet.text.encode("utf-8") for tweet in timeline])
+        try:
+            timeline = api.user_timeline(id=user, count=COUNT)
+            tweets.extend([tweet.text.encode("utf-8") for tweet in timeline])
+        except:
+            pass
 
     tweets = b"\n".join(tweets)
 
