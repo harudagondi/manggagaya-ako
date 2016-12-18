@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import yaml, tweepy, markovify
 
 config_file = "config.yaml"
